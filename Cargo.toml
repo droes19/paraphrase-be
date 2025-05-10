@@ -16,7 +16,3 @@ tracing-subscriber = "0.3"
 thiserror = "1.0"
 validator = { version = "0.16", features = ["derive"] }
 rand = "0.8.5"
-shuttle-runtime = "0.28.0"
-shuttle-axum = "0.28.0"
-shuttle-secrets = "0.28.0"
-sync_wrapper = "0.1.2"

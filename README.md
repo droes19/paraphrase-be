@@ -44,7 +44,7 @@ backend/
 
 - Rust (2021 edition) and Cargo
 - An Anthropic API key (Claude)
-- [Shuttle CLI](https://docs.shuttle.rs/introduction/installation) (for deployment)
+- [Shuttle CLI](https://docs.shuttle.rs/introduction/installation) version matching your project's dependencies (for deployment)
 
 ### Local Development
 
@@ -71,28 +71,71 @@ backend/
 
 5. The server will start on [http://localhost:8080](http://localhost:8080).
 
-### Deployment to Shuttle
+### Deployment Options
 
-1. Install the Shuttle CLI:
-   ```
-   cargo install cargo-shuttle
-   ```
+The backend can be deployed to various platforms. Here are several options:
 
-2. Login to Shuttle:
-   ```
-   cargo shuttle login
-   ```
+#### Option 1: Deploy with Docker
 
-3. Deploy the application:
+1. Build the Docker image:
    ```
-   cargo shuttle deploy
+   docker build -t paraphrase-be .
    ```
 
-4. During the first deployment, you'll be prompted to set up your secrets:
-   - AI_API_KEY: Your Anthropic API key
-   - FRONTEND_URL: The URL of your deployed frontend
+2. Run the container locally:
+   ```
+   docker run -p 8080:8080 -e AI_API_KEY=your_api_key_here paraphrase-be
+   ```
 
-5. Once deployed, Shuttle will provide a URL for your API.
+3. Deploy to a platform that supports Docker:
+   - Railway
+   - Fly.io
+   - Render
+   - DigitalOcean App Platform
+   - AWS App Runner
+   - Google Cloud Run
+
+#### Option 2: Deploy to Heroku
+
+1. Create a new Heroku app:
+   ```
+   heroku create
+   ```
+
+2. Set up environment variables:
+   ```
+   heroku config:set AI_API_KEY=your_anthropic_api_key_here
+   heroku config:set FRONTEND_URL=https://paraprhase-fe.vercel.app
+   ```
+
+3. Deploy the app:
+   ```
+   git push heroku main
+   ```
+
+#### Option 3: Manual Deployment
+
+1. Build the project:
+   ```
+   cargo build --release
+   ```
+
+2. Create a `.env` file with your configuration:
+   ```
+   cp .env.example .env
+   # Edit .env with your API key
+   ```
+
+3. Run the server:
+   ```
+   ./target/release/paraphrase-be
+   ```
+
+**Important Environment Variables:**
+- `AI_API_KEY`: Your Anthropic API key (required)
+- `AI_API_URL`: The Anthropic API URL (defaults to "https://api.anthropic.com/v1/messages")
+- `FRONTEND_URL`: Your frontend URL (defaults to "http://localhost:3000" in development)
+- `PORT`: The port to run the server on (defaults to 8080)
 
 ## API Usage
 
@@ -130,7 +173,7 @@ The API returns appropriate HTTP status codes for different types of errors:
 - ✅ Integration with Anthropic Claude API
 - ✅ Error handling and validation
 - ✅ CORS configuration for frontend communication
-- ✅ Shuttle deployment configuration
+- ✅ Docker and cloud deployment configuration
 
 ### In Progress
 - 🔄 Comprehensive test coverage
