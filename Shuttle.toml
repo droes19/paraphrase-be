@@ -1,0 +1,12 @@
+[shuttle]
+# This indicates which module in main.rs to use
+name = "paraphrase-be"
+deployment_name = "paraphrase"
+# The region to deploy to on shuttle
+region = "gru"
+
+[secrets]
+# These secrets will be set during deployment or from the Shuttle dashboard
+AI_API_KEY = { value = "" }
+AI_API_URL = { value = "https://api.anthropic.com/v1/messages" }
+FRONTEND_URL = { value = "" }
